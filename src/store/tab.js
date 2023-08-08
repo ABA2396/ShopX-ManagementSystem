@@ -22,7 +22,7 @@ export default {
         //更新面包屑数据
         selectMenu(state,val){
             //判断添加的数据不为首页
-            if(val.name != 'home'){
+            if(val.name !== 'home'){
                 //判断添加的数据不存在
                 const index = state.tabsList.findIndex(item => {
                     return item.name === val.name

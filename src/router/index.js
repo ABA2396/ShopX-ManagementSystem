@@ -36,10 +36,20 @@ const routes = [
     },
 ]
 
+const originalPush = VueRouter.prototype.push
+
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
 //3、创建router实例/对象
 const router = new VueRouter({
-    //routes: routes
-    routes //键和值名称一样，可以简写成一个
+    routes
 })
+
+router.beforeEach((to, from, next) => {
+    return next()
+})
+
 //4、对外暴露router实例
 export default router

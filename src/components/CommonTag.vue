@@ -4,8 +4,8 @@
             @click="changeMenu(item)"
             v-for="(item,index) in tabsList" 
             :key="item.path" 
-            :closable="item.name != 'home'"
-            :effect="$route.name == item.name ? 'dark' : 'plain'"
+            :closable="item.name !== 'home'"
+            :effect="$route.name === item.name ? 'dark' : 'plain'"
             @close="handleClose(item,index)"
         >
             {{ item.label }}
