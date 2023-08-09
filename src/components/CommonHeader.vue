@@ -26,7 +26,7 @@
             <!-- 下拉菜单 -->
             <el-dropdown @command="handleClick">
                 <span>
-                    <img src="../assets/images/tx.jpg" class="user"/>
+                    <img src="../assets/images/tx.jpg" class="user" alt="用户头像"/>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="grzx">个人中心</el-dropdown-item>
@@ -52,7 +52,7 @@ export default {
         },
         //点击下拉菜单某一项功能
         handleClick(command) {
-            if (command == 'logout') {
+            if (command === 'logout') {
                 //表示退出
                 //清除Cookie中的token信息
                 Cookie.remove("token")
