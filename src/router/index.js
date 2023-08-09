@@ -8,6 +8,7 @@ import Main from '../views/Main.vue'
 import Mall from '../views/Mall.vue'
 import PageOne from '../views/PageOne.vue'
 import PageTwo from '../views/PageTwo.vue'
+import Login from '../views/Login.vue'
 
 //安装路由
 Vue.use(VueRouter);
@@ -34,6 +35,12 @@ const routes = [
             {path: 'page2', name: 'page2', component: PageTwo}, //其他-页面2
         ]
     },
+    //登录路由
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
 ]
 
 const originalPush = VueRouter.prototype.push
@@ -46,10 +53,5 @@ VueRouter.prototype.push = function push(location) {
 const router = new VueRouter({
     routes
 })
-
-router.beforeEach((to, from, next) => {
-    return next()
-})
-
 //4、对外暴露router实例
 export default router

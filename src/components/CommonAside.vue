@@ -1,6 +1,5 @@
 <template>
     <el-menu
-        style="border-right: none;"
         default-active="1-4-1"
         class="el-menu-vertical-demo"
         @open="handleOpen"
@@ -39,54 +38,13 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
     data() {
         return {
             //isCollapse: false,
             //临时的左侧菜单数据
-            menuData: [
-                {
-                    path: "/",
-                    name: "home",
-                    label: "首页",
-                    icon: "s-home",
-                    url: "Home/Home",
-                },
-                {
-                    path: "/mall",
-                    name: "mall",
-                    label: "商品管理",
-                    icon: "video-play",
-                    url: "MallManage/MallManage",
-                },
-                {
-                    path: "/user",
-                    name: "user",
-                    label: "用户管理",
-                    icon: "user",
-                    url: "UserManage/UserManage",
-                },
-                {
-                    label: "其他",
-                    icon: "location",
-                    children: [
-                        {
-                            path: "/page1",
-                            name: "page1",
-                            label: "页面1",
-                            icon: "setting",
-                            url: "Other/PageOne",
-                        },
-                        {
-                            path: "/page2",
-                            name: "page2",
-                            label: "页面2",
-                            icon: "setting",
-                            url: "Other/PageTwo",
-                        },
-                    ],
-                },
-            ],
         };
     },
     methods: {
@@ -108,11 +66,23 @@ export default {
     computed: {
         //没有子菜单
         noChildren() {
-            return this.menuData.filter(item => !item.children);
+            const menu = Cookie.get("menu")
+            if (menu) {
+                return JSON.parse(menu).filter(item => !item.children);
+            } else {
+                return this.$store.state.tab.authMenu.filter(item => !item.children);
+            }
+            //return this.menuData.filter(item => !item.children);
         },
         //有子菜单
         hasChildren() {
-            return this.menuData.filter(item => item.children);
+            const menu = Cookie.get("menu")
+            if (menu) {
+                return JSON.parse(menu).filter(item => item.children);
+            } else {
+                return this.$store.state.tab.authMenu.filter(item => item.children);
+            }
+            //return this.menuData.filter(item => item.children);
         },
         //获取store中isCollapse的值
         isCollapse() {

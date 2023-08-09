@@ -24,13 +24,13 @@
         <!-- header的右侧区域 -->
         <div class="right-content">
             <!-- 下拉菜单 -->
-            <el-dropdown>
+            <el-dropdown @command="handleClick">
                 <span>
                     <img src="../assets/images/tx.jpg" class="user"/>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item command="grzx">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
     data() {
         return {};
@@ -47,6 +49,20 @@ export default {
         handleMenu() {
             //调用store对象的commit方法来间接调用store中的mutations的方法
             this.$store.commit("collapseMenu");
+        },
+        //点击下拉菜单某一项功能
+        handleClick(command) {
+            if (command == 'logout') {
+                //表示退出
+                //清除Cookie中的token信息
+                Cookie.remove("token")
+                //清除Cookie中的menu信息
+                Cookie.remove("menu")
+                //跳转到登录页面
+                this.$router.push("/login")
+            } else {
+                this.$message.error('功能待开发');
+            }
         },
     },
     computed: {
