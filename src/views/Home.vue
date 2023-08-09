@@ -6,7 +6,7 @@
 <script>
 
 export default {
-    data(){
+    data() {
         return {}
     }
 }
@@ -14,14 +14,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .content{
-        width: 100%;
-        text-align: center;
-        font-size: 50px;
-        font-weight: bold;
-        padding-top: 25%;
-        span{
-            color: aqua;
-        }
+.content {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    padding-top: 25%;
+
+    span {
+        color: aqua;
     }
+}
 </style>

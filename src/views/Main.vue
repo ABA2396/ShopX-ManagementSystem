@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-.el-header{
+.el-header {
     padding: 0;
 }
 </style>

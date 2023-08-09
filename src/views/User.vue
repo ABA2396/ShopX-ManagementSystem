@@ -1,15 +1,15 @@
 <template>
     <!-- <h1>我是user</h1> -->
     <div class="manage">
-        
+
         <!-- 新增 弹出框 -->
         <el-dialog
             title="新增用户"
             :visible.sync="dialogVisible"
             width="30%"
         >
-        <span>这是一段信息</span>
-        <span slot="footer" class="dialog-footer">
+            <span>这是一段信息</span>
+            <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
         </span>
@@ -23,9 +23,9 @@
 
         <div class="common-table">
             <!-- 表格数据展示 -->
-            <el-table 
-                :data="tableData" 
-                stripe 
+            <el-table
+                :data="tableData"
+                stripe
                 style="width: 100%">
                 <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
@@ -50,12 +50,12 @@
                 </el-pagination>
             </div>
         </div>
-        
+
     </div>
 </template>
 
 <script>
-import { getUsers } from "../api";
+import {getUsers} from "../api";
 
 export default {
     data() {
@@ -83,7 +83,7 @@ export default {
             });
         },
         //选择页码的回调函数
-        handlePage(val){
+        handlePage(val) {
             //console.log(val)
             //修改当前的页码
             this.pageData.pageNo = val
@@ -91,7 +91,7 @@ export default {
             this.getList()
         },
         //点击新增按钮
-        handleAdd(){
+        handleAdd() {
             this.dialogVisible = true
         },
     },
@@ -103,16 +103,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    .manage{
-        height: 90%;
-        .common-table{
-            position: relative;
-            height: calc(100% - 62px);
-            .pager{
-                position: absolute;
-                bottom: 0;
-                right: 20px;
-            }
+.manage {
+    height: 90%;
+
+    .common-table {
+        position: relative;
+        height: calc(100% - 62px);
+
+        .pager {
+            position: absolute;
+            bottom: 0;
+            right: 20px;
         }
     }
+}
 </style>
