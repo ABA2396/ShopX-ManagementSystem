@@ -115,12 +115,18 @@ export default {
                 if (valid) {
                     //通过表单校验
                     //新增操作
-                    addUser({name: this.form.username, password: this.form.password}).then(() => {
-                        this.$message({
-                            message: "用户注册成功",
-                            type: "success",
-                        });
-
+                    addUser({name: this.form.username, password: this.form.password}).then((res) => {
+                        console.log(res)
+                        if (res?.code === 200) {
+                            //新增成功
+                            this.$message({
+                                message: "用户注册成功",
+                                type: "success",
+                            });
+                        } else {
+                            //新增失败
+                            this.$message.error(res?.message);
+                        }
                     });
 
                     //新增后清空弹框内容并关闭弹框
@@ -135,10 +141,8 @@ export default {
                 if (valid) {
                     //可以进行登录请求
                     login(this.form).then((res) => {
-                        console.log(res)
-                        console.log(res.code)
                         //判断登录结果
-                        if (res.code === 200) {
+                        if (res?.code === 200) {
                             //登录成功,继续后续操作
                             //将用户登录的token信息存入cookie中
                             Cookie.set("token", res.data)
@@ -154,14 +158,15 @@ export default {
                             this.$router.push("/home")
                         } else {
                             //登录失败
-                            this.$message.error(res.message);
+                            this.$message.error(res?.message);
                         }
 
                     })
                 }
             })
         },
-    }
+
+    },
 };
 </script>
 
