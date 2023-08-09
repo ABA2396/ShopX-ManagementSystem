@@ -58,6 +58,8 @@ export default {
                 Cookie.remove("token")
                 //清除Cookie中的menu信息
                 Cookie.remove("menu")
+                //清除tags
+                this.$store.commit("clearTags")
                 //跳转到登录页面
                 this.$router.push("/login")
             } else {
