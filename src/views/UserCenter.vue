@@ -27,7 +27,7 @@
                         <el-date-picker v-model="user.birth" type="date" placeholder="选择日期" style="margin-bottom: 20px;">
                         </el-date-picker>
                     </div>
-                    <el-button type="primary" @click="open1">确认修改</el-button>
+                    <el-button type="primary" @click="submit">确认修改</el-button>
                 </form>
             </el-form>
         </div>
@@ -35,12 +35,47 @@
 </template>
   
 <script>
-import { getInfo } from "../api";
+import { getInfo, addUser } from "../api";
 import Cookie from 'js-cookie'
 
 export default {
     data() {
         return {
+            //表单校验规则
+            rules: {
+                name: [
+                    {required: true, message: "请输入姓名", trigger: "blur"},
+                    {
+                        min: 2,
+                        max: 4,
+                        message: "长度在 2 到 4 个字符",
+                        trigger: "blur",
+                    },
+                ],
+                age: [
+                    {required: true, message: "请输入年龄", trigger: "blur"},
+                ],
+                sex: [
+                    {required: true, message: "请选择性别", trigger: "blur"},
+                ],
+                birth: [
+                    {
+                        required: true,
+                        message: "请选择出生日期",
+                        trigger: "blur",
+                    },
+                ],
+                addr: [
+                    {required: true, message: "请输入地址", trigger: "blur"},
+                ],
+            },
+            //0表示新增的弹框,1表示修改的弹框
+            modalType: 0,
+            //搜索表单
+            searchForm: {
+                //搜索关键字
+                name: null,
+            },
             //表单数据（初始数据）
             user: {
                 id: "",
@@ -56,7 +91,7 @@ export default {
                 value: 1,
                 label: '男'
             }, {
-                value: 2,
+                value: 0,
                 label: '女'
             }],
         };
@@ -95,7 +130,37 @@ export default {
                     // 可以进行错误处理
                 });
         },
-        open1() {
+        submit() {
+            this.$refs.form.validate((valid) => {
+                if (valid) {
+                    //通过表单校验
+                    //后续对表单数据的处理
+                    if (this.modalType == 0) {
+                        //新增操作
+                        addUser(this.form).then(() => {
+                            this.$message({
+                                message: "用户添加成功",
+                                type: "success",
+                            });
+                            //重新获取数据
+                            this.getList();
+                        });
+                    } else {
+                        //修改操作
+                        editUser(this.form).then(() => {
+                            this.$message({
+                                message: "用户修改成功",
+                                type: "success",
+                            });
+                            //重新获取数据
+                            this.getList();
+                        });
+                    }
+
+                    //新增/修改后清空弹框内容并关闭弹框
+                    this.handleClose();
+                }
+            });
             this.$message('修改成功');
         },
     },
