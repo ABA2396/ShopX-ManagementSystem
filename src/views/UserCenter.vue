@@ -46,29 +46,6 @@
                     >
                     </el-date-picker>
                 </el-form-item>
-                <!-- <form @submit.prevent="updateInformation">
-
-                    <p>姓名：</p>
-                    <el-input v-model="user.name" placeholder="form.name" class="short-input"></el-input>
-
-                    <div>
-                        <p>性别：</p>
-                        <el-select v-model="user.sex" placeholder="请选择性别">
-                            <el-option v-for="user in options" :key="user.value" :label="user.label" :value="user.value" />
-                        </el-select>
-                    </div>
-
-                    <p>年龄：</p>
-                    <el-input v-model="user.age" placeholder="age" class="short-input"></el-input>
-
-                    <p>地址：</p>
-                    <el-input v-model="user.addr" placeholder="addr" class="short-input"></el-input>
-
-                    <p>出生日期：</p>
-                    <div class="block">
-                        <el-date-picker v-model="user.birth" type="date" placeholder="选择日期" style="margin-bottom: 20px;">
-                        </el-date-picker>
-                    </div> -->
                 <el-button type="primary" @click="submit()">确认修改</el-button>
                 
             </el-form>
@@ -132,18 +109,6 @@ export default {
         };
     },
     methods: {
-        updateInformation() {
-            axios.put('/edit', this.user)
-                .then(response => {
-                    console.log('Updated information:', this.user);
-                    // 可以根据后端返回的结果进行处理
-                })
-                .catch(error => {
-                    console.error(error);
-                    // 可以进行错误处理
-                });
-        },
-
         getUserInfo() {
             console.log(Cookie.get("token"));
             getInfo({ token: Cookie.get("token") })
