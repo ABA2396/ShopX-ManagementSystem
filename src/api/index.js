@@ -76,7 +76,8 @@ export const getInfo = (params) => {
             params: params
         })
         .then((res) => {
-            //console.log(res,"res")
+            // console.log(res,"res")
+            // console.log(res.data,"res.data")
             return res.data
         })
         .catch((err) => {
