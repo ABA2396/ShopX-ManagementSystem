@@ -111,13 +111,6 @@ export default {
                     { required: true, message: "请输入地址", trigger: "blur" },
                 ],
             },
-            //0表示新增的弹框,1表示修改的弹框
-            modalType: 0,
-            //搜索表单
-            searchForm: {
-                //搜索关键字
-                name: null,
-            },
             //表单数据（初始数据）
             user: {
                 id: "",
