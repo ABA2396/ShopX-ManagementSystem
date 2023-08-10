@@ -3,7 +3,7 @@
     <div class="manage">
         <!-- 新增 弹出框 -->
         <el-dialog
-            title="新增用户"
+            title="新增/修改用户"
             :visible.sync="dialogVisible"
             width="40%"
             :before-close="handleClose"
@@ -85,7 +85,7 @@
                 <el-table-column prop="name" label="姓名"></el-table-column>
                 <el-table-column prop="sex" label="性别">
                     <template slot-scope="scope">
-                        <span>{{ scope.row.sex == 1 ? "男" : "女" }}</span>
+                        <span>{{ scope.row.sex === 1 ? "男" : "女" }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="age" label="年龄"></el-table-column>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import {getUsers, addUser, editUser, delUser} from "../api";
+import {getUsers, addUser, editUser, delUser} from "@/api";
 
 export default {
     data() {
@@ -209,7 +209,7 @@ export default {
                 if (valid) {
                     //通过表单校验
                     //后续对表单数据的处理
-                    if (this.modalType == 0) {
+                    if (this.modalType === 0) {
                         //新增操作
                         addUser(this.form).then(() => {
                             this.$message({
