@@ -3,16 +3,58 @@
         <div class="information">
             <h3>个人信息修改</h3>
             <!-- 采集用户信息表单 -->
-            <el-form :inline="true" :model="form" label-width="80px" ref="form" :rules="rules">
-                <form @submit.prevent="updateInformation">
+            <el-form :model="user" label-width="80px" ref="user" :rules="rules">
+                <el-form-item label="姓名" prop="name">
+                    <el-input
+                        v-model="user.name"
+                        placeholder="请输入姓名" 
+                        class="short-input"
+                    ></el-input>
+                </el-form-item>
+                <!-- 年龄 -->
+                <el-form-item label="年龄" prop="age">
+                    <el-input
+                        v-model="user.age"
+                        placeholder="请输入年龄"
+                        class="short-input"
+                    ></el-input>
+                </el-form-item>
+                <!-- 性别 -->
+                <el-form-item label="性别" prop="sex">
+                    <!-- select选择器 -->
+                    <el-select v-model="user.sex" placeholder="请选择性别" class="short-input">
+                        <el-option label="男" :value="1"></el-option>
+                        <el-option label="女" :value="0"></el-option>
+                    </el-select>
+                </el-form-item>
+                <!-- 地址 -->
+                <el-form-item label="地址" prop="addr">
+                    <el-input
+                        v-model="user.addr"
+                        placeholder="请输入地址"
+                        class="short-input"
+                    ></el-input>
+                </el-form-item>
+                <!-- 出生日期 -->
+                <el-form-item label="出生日期" prop="birth">
+                    <el-date-picker
+                        v-model="user.birth"
+                        type="date"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd"
+                        style="width: 300px;"
+                    >
+                    </el-date-picker>
+                </el-form-item>
+                <!-- <form @submit.prevent="updateInformation">
 
                     <p>姓名：</p>
                     <el-input v-model="user.name" placeholder="form.name" class="short-input"></el-input>
 
                     <div>
                         <p>性别：</p>
-                        <el-select v-model="user.sex" placeholder="请选择性别" >
-                            <el-option v-for="user in options" :key="user.value" :label="user.label" :value="user.value"/>
+                        <el-select v-model="user.sex" placeholder="请选择性别">
+                            <el-option v-for="user in options" :key="user.value" :label="user.label" :value="user.value" />
                         </el-select>
                     </div>
 
@@ -26,16 +68,16 @@
                     <div class="block">
                         <el-date-picker v-model="user.birth" type="date" placeholder="选择日期" style="margin-bottom: 20px;">
                         </el-date-picker>
-                    </div>
-                    <el-button type="primary" @click="submit">确认修改</el-button>
-                </form>
+                    </div> -->
+                <el-button type="primary" @click="submit()">确认修改</el-button>
+                
             </el-form>
         </div>
     </div>
 </template>
   
 <script>
-import { getInfo, addUser } from "../api";
+import { getInfo, editUser } from "../api";
 import Cookie from 'js-cookie'
 
 export default {
@@ -44,19 +86,19 @@ export default {
             //表单校验规则
             rules: {
                 name: [
-                    {required: true, message: "请输入姓名", trigger: "blur"},
+                    { required: true, message: "请输入姓名", trigger: "blur" },
                     {
                         min: 2,
-                        max: 4,
-                        message: "长度在 2 到 4 个字符",
+                        max: 8,
+                        message: "长度在 2 到 8 个字符",
                         trigger: "blur",
                     },
                 ],
                 age: [
-                    {required: true, message: "请输入年龄", trigger: "blur"},
+                    { required: true, message: "请输入年龄", trigger: "blur" },
                 ],
                 sex: [
-                    {required: true, message: "请选择性别", trigger: "blur"},
+                    { required: true, message: "请选择性别", trigger: "blur" },
                 ],
                 birth: [
                     {
@@ -66,7 +108,7 @@ export default {
                     },
                 ],
                 addr: [
-                    {required: true, message: "请输入地址", trigger: "blur"},
+                    { required: true, message: "请输入地址", trigger: "blur" },
                 ],
             },
             //0表示新增的弹框,1表示修改的弹框
@@ -97,13 +139,6 @@ export default {
         };
     },
     methods: {
-        handleEdit(row) {
-            this.dialogVisible = true;
-            this.modalType = 1;
-            //回显当前行的数据到弹框表单
-            this.form = JSON.parse(JSON.stringify(row));
-        },
-
         updateInformation() {
             axios.put('/edit', this.user)
                 .then(response => {
@@ -116,7 +151,7 @@ export default {
                 });
         },
 
-        getList() {
+        getUserInfo() {
             console.log(Cookie.get("token"));
             getInfo({ token: Cookie.get("token") })
                 .then((res) => {
@@ -131,42 +166,44 @@ export default {
                 });
         },
         submit() {
-            this.$refs.form.validate((valid) => {
+            this.$refs.user.validate((valid) => {
                 if (valid) {
                     //通过表单校验
                     //后续对表单数据的处理
-                    if (this.modalType == 0) {
-                        //新增操作
-                        addUser(this.form).then(() => {
+                    //修改操作
+                    editUser(this.user)
+                    .then((res) => {
+                        if (res.code !== 200){
                             this.$message({
-                                message: "用户添加成功",
-                                type: "success",
+                                message: "用户修改失败",
+                                type: "failed",
                             });
-                            //重新获取数据
-                            this.getList();
+                            return;
+                        }
+                        this.$message({
+                            message: "用户修改成功",
+                            type: "success",
                         });
-                    } else {
-                        //修改操作
-                        editUser(this.form).then(() => {
-                            this.$message({
-                                message: "用户修改成功",
-                                type: "success",
-                            });
-                            //重新获取数据
-                            this.getList();
+                        //重新获取数据
+                        this.getUserInfo();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        this.$message({
+                            message: "服务器错误",
+                            type: "error",
                         });
-                    }
-
-                    //新增/修改后清空弹框内容并关闭弹框
-                    this.handleClose();
+                    });
+                }else{
+                    console.log(this.user)
                 }
+
             });
-            this.$message('修改成功');
         },
     },
     mounted() {
         //打开页面默认获取数据
-        this.getList();
+        this.getUserInfo();
     },
 }
 </script>
