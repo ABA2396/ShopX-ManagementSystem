@@ -169,7 +169,7 @@ export default {
                         //修改操作
                         editItem(this.form).then(() => {
                             this.$message({
-                                message: "用户修改成功",
+                                message: "商品修改成功",
                                 type: "success",
                             });
                             //重新获取数据
