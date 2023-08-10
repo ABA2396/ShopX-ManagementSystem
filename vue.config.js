@@ -6,7 +6,7 @@ module.exports = defineConfig({
         //配置跨域
         proxy: {
             '/api': {
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8081',
                 changeOrigin: true,
             }
         }

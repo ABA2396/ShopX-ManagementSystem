@@ -1,38 +1,5 @@
 import axios from 'axios'
 
-const isErrorResponse = res => (typeof res === 'object' && res !== null && 'code' in res && 'message' in res && 'data' in res);
-
-const defaultErrorResponse = {
-    code: 500, message: '服务器错误！'
-};
-
-const handleErrorResponse = response => {
-    console.error('Response Error:', response);
-    response.response.data = {
-        ...response.response.data, ...defaultErrorResponse
-    };
-    return response;
-};
-
-const handleRequestError = error => {
-    console.error('Request Error:', error);
-    if (error.response && error.response.data) {
-        error.response.data = {
-            ...error.response.data, ...defaultErrorResponse
-        };
-        return Promise.reject(error.response.data);
-    } else {
-        return Promise.reject(defaultErrorResponse);
-    }
-};
-
-axios.interceptors.response.use(response => {
-    if (!isErrorResponse(response.data)) {
-        return handleErrorResponse(response);
-    }
-    return response;
-}, error => handleRequestError(error));
-
 //分页获取用户数据
 export const getUsers = (params) => {
     return axios
@@ -45,7 +12,6 @@ export const getUsers = (params) => {
         })
         .catch((err) => {
             console.log(err, "err")
-            return err
         })
 }
 
@@ -59,7 +25,6 @@ export const addUser = (data) => {
         })
         .catch((err) => {
             console.log(err, "err")
-            return err
         })
 }
 
@@ -73,7 +38,6 @@ export const editUser = (data) => {
         })
         .catch((err) => {
             console.log(err, "err")
-            return err
         })
 }
 
@@ -89,7 +53,6 @@ export const delUser = (params) => {
         })
         .catch((err) => {
             console.log(err, "err")
-            return err
         })
 }
 
@@ -97,10 +60,12 @@ export const delUser = (params) => {
 export const login = (data) => {
     return axios
         .post('/api/user/login', data)
-        .then(res => res.data)
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
         .catch((err) => {
             console.log(err, "err")
-            return err
         })
 }
 
@@ -117,6 +82,59 @@ export const getInfo = (params) => {
         })
         .catch((err) => {
             console.log(err, "err")
-            return err
+        })
+}
+
+//商品信息
+export const getItems = (params) => {
+    return axios
+        .get('/api/item/getItems/' + params.pageNo + '/' + params.pageSize, {
+            params: params
+        })
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//新增商品
+export const addItem = (data) => {
+    return axios
+        .post('/api/item/add', data)
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//修改商品
+export const editItem = (data) => {
+    return axios
+        .put('/api/item/edit', data)
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//删除商品 
+//根据id删除用户
+export const delItem = (params) => {
+    return axios
+        .delete('/api/item/del', {
+            params: params
+        })
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
         })
 }
