@@ -9,6 +9,7 @@ import Mall from '../views/Mall.vue'
 import PageOne from '../views/PageOne.vue'
 import PageTwo from '../views/PageTwo.vue'
 import Login from '../views/Login.vue'
+import UserCenter from '../views/UserCenter.vue'
 
 //安装路由
 Vue.use(VueRouter);
@@ -33,6 +34,7 @@ const routes = [
             {path: 'mall', name: 'mall', component: Mall}, //商品管理
             {path: 'page1', name: 'page1', component: PageOne}, //其他-页面1
             {path: 'page2', name: 'page2', component: PageTwo}, //其他-页面2
+            {path: 'usercenter', name: 'usercenter', component: UserCenter}, //个人中心
         ]
     },
     //登录路由

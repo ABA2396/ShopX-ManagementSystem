@@ -62,8 +62,11 @@ export default {
                 this.$store.commit("clearTags")
                 //跳转到登录页面
                 this.$router.push("/login")
-            } else {
-                this.$message.error('功能待开发');
+            }
+            if (command == 'grzx') {
+                //表示进入个人中心
+                //跳转到个人中心页面
+                this.$router.push("/usercenter")
             }
         },
     },
