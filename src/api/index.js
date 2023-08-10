@@ -120,3 +120,56 @@ export const getInfo = (params) => {
             return err
         })
 }
+
+//商品信息
+export const getItems = (params) => {
+    return axios
+        .get('/api/item/getItems/' + params.pageNo + '/' + params.pageSize, {
+            params: params
+        })
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//新增商品
+export const addItem = (data) => {
+    return axios
+        .post('/api/item/add', data)
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//修改商品
+export const editItem = (data) => {
+    return axios
+        .put('/api/item/edit', data)
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
+//删除商品 
+export const delItem = (params) => {
+    return axios
+        .delete('/api/item/del', {
+            params: params
+        })
+        .then((res) => {
+            //console.log(res,"res")
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err, "err")
+        })
+}
