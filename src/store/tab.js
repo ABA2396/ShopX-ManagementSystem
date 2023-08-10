@@ -87,6 +87,18 @@ export default {
                 }
             }
         },
+        clearTags(state) {
+            state.tabsList = [
+                //默认的首页数据
+                {
+                    path: "/",
+                    name: "home",
+                    label: "首页",
+                    icon: "s-home",
+                    url: "Home/Home",
+                },
+            ]
+        },
         //删除指定的面包屑数据
         closeTag(state, val) {
             const index = state.tabsList.findIndex(item => {
@@ -97,11 +109,11 @@ export default {
         //权限判断
         checkMenu(state, val) {
             //console.log(val,"用户的权限")
-            if (val == 1) {
+            if (val === 1) {
                 state.authMenu = state.menuData
             } else {
                 state.authMenu = state.menuData.filter((item) => {
-                    return item.auth == 1
+                    return item.auth === 1
                 })
             }
             //页面刷新,会导致vuex中的数据初始化
